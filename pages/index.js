@@ -4,13 +4,13 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const response = await fetch("https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json");
-  const data = await response.json();
+  const pokedex = await response.json();
 
   return {
     props: {
-      pokedex: data,
+      pokedex,
     },
   };
 };
