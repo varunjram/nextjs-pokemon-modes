@@ -4,20 +4,18 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
-  const [pokedex, setPokedex] = useState([]);
+export const getServerSideProps = async () => {
+  const response = await fetch("https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json");
+  const data = await response.json();
 
-  const getPokedex = async () => {
-    const response = await fetch("https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json");
-    const data = await response.json();
-    setPokedex(data);
-    console.log("awesome");
+  return {
+    props: {
+      pokedex: data,
+    },
   };
+};
 
-  useEffect(() => {
-    getPokedex();
-  }, []);
-
+export default function Home({pokedex}) {
   return (
     <div className={styles.container}>
       <Head>

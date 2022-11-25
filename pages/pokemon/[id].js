@@ -5,63 +5,20 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/Details.module.css";
 
-export default function Card() {
-  const [pokemon, setPokemon] = useState({});
-  const {
-    query: {id},
-  } = useRouter();
+export const getServerSideProps = async ({params}) => {
+  const response = await fetch(
+    `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params.id}.json`
+  );
+  const data = await response.json();
 
-  useEffect(() => {
-    const getPokemon = async () => {
-      const response = await fetch(
-        `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${id}.json`
-      );
-      const data = await response.json();
-      setPokemon(data);
-    };
+  return {
+    props: {
+      pokemon: data,
+    },
+  };
+};
 
-    if (id) {
-      getPokemon();
-    }
-  }, [id]);
-  //   {
-  //     "name": "Bulbasaur",
-  //     "type": [
-  //       "Grass",
-  //       "Poison",
-  //       "Super awesome",
-  //       "Crazy awesome",
-  //       "Mucho crazy awesome"
-  //     ],
-  //     "stats": [
-  //       {
-  //         "name": "HP",
-  //         "value": 45
-  //       },
-  //       {
-  //         "name": "Attack",
-  //         "value": 49
-  //       },
-  //       {
-  //         "name": "Defense",
-  //         "value": 49
-  //       },
-  //       {
-  //         "name": "Special Attack",
-  //         "value": 65
-  //       },
-  //       {
-  //         "name": "Special Defense",
-  //         "value": 65
-  //       },
-  //       {
-  //         "name": "Speed",
-  //         "value": 45
-  //       }
-  //     ],
-  //     "image": "images/bulbasaur.jpg"
-  //   }
-
+export default function Card({pokemon}) {
   return (
     <div className={styles.main}>
       <Link href="/" className={styles.bkLink}>
