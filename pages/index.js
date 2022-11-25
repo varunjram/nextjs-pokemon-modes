@@ -23,6 +23,7 @@ export default function Home() {
       <Head>
         <title>Pokemon List</title>
       </Head>
+      <h1 style={{textAlign: "center"}}>Pokemon List</h1>
       <div className={styles.grid}>
         {pokedex.map((pokemon, i) => (
           <div key={i} className={styles.card}>
